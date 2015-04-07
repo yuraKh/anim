@@ -4,7 +4,7 @@ using System.Collections;
 public class Anemy : MonoBehaviour {
 
 	public GameObject gun, bullet;
-	public Transform Sens, SensM, SensJ, SensDP;
+	public Transform Sens, SensM, SensJ, SensDP, SensD;
 	public LayerMask Ground;
 	bool SensIfGround = false;
 	bool IfRight = true;
@@ -12,10 +12,6 @@ public class Anemy : MonoBehaviour {
 	Animator CatAnim;
 	float move, timer = 0;
 
-	//
-
-
-	
 	void Start ()
 	{
 		CatRBody = GetComponent<Rigidbody2D> ();
@@ -27,7 +23,11 @@ public class Anemy : MonoBehaviour {
 	{
 		if (SensIfGround && Physics2D.OverlapCircle (SensJ.position, 0.4f, Ground)) {
 			CatAnim.SetBool ("IfGround", false);
-			CatRBody.velocity = new Vector2 (CatRBody.velocity.x, 9f);
+			CatRBody.velocity = new Vector2 (CatRBody.velocity.x, 15f);
+		}
+		if ((SensIfGround && Physics2D.OverlapCircle (SensD.position, 0.4f, Ground))&&(SensIfGround && !Physics2D.OverlapCircle (SensJ.position, 0.4f, Ground))) {
+			CatAnim.SetBool ("IfGround", true);
+			CatRBody.velocity = new Vector2 (move * 10, 0);
 		}
 	}
 	

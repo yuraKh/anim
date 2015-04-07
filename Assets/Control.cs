@@ -1,34 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Control : MonoBehaviour {
-
-	public GameObject coin, CatAn;
+	public Text health;
+	public GameObject coin, CatAn, gun;
 	public Transform Sens;
 	public LayerMask Ground;
 	bool SensIfGround = false;
 	bool IfRight = true;
 	Rigidbody2D CatRBody;
 	Animator CatAnim;
-	int hp = 3;
-	//float timer = 0;
-	//public bool forOne = false;
+	static  int hp = 3;
+	float timer = 0;
+	public bool forOne = false;
+	Vector3 deltac;
+	static GameObject Cgun;
 
 	void Start () {
+		deltac = Camera.main.transform.position - transform.position;
 		CatRBody = GetComponent<Rigidbody2D> ();
 		CatAnim = GetComponent<Animator> ();
-		//GameObject Money = (GameObject)Instantiate(coin);
-		//coin.transform.position = new Vector3(gameObject.transform.position.x + Random.Range(1, 10), gameObject.transform.position.y, gameObject.transform.position.z);
+		GameObject Money = (GameObject)Instantiate(coin);
+		coin.transform.position = new Vector3(gameObject.transform.position.x + Random.Range(1, 10), gameObject.transform.position.y, gameObject.transform.position.z);
 	}
 	
 	void Update () {
+		Camera.main.transform.position = transform.position + deltac;
 		if (SensIfGround && Input.GetKeyDown (KeyCode.Space)) {
 			CatAnim.SetBool ("IfGround", false);
-			CatRBody.velocity = new Vector2 (CatRBody.velocity.x, 9f);
+			CatRBody.velocity = new Vector2 (CatRBody.velocity.x, 15f);
 		}
 	}
 
 	void FixedUpdate () {
+		health.text = "Health: " + hp;
 		SensIfGround = Physics2D.OverlapCircle (Sens.position, 1f, Ground);
 		CatAnim.SetBool ("IfGround", SensIfGround);
 		CatAnim.SetFloat ("YSpeed", CatRBody.velocity.y);
@@ -60,26 +66,36 @@ public class Control : MonoBehaviour {
 				Color one = GetComponent<SpriteRenderer> ().color;
 				GetComponent<SpriteRenderer> ().color = GameObject.Find ("Anemy").GetComponent<SpriteRenderer> ().color;
 				//GetComponent<Rigidbody2D> ().gravityScale = -0.2f;
-				GameObject CatA = (GameObject)Instantiate(CatAn);
+				GameObject CatA = (GameObject)Instantiate (CatAn);
 				CatA.transform.position = gameObject.transform.position;
-				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + Random.Range(-5, 5), gameObject.transform.position.y + 5, gameObject.transform.position.z );
+				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + Random.Range (-5, 5), gameObject.transform.position.y + 5, gameObject.transform.position.z);
 				GetComponent<SpriteRenderer> ().color = one;
 				hp = 10;
-				
-				//	Destroy(gameObject);
-
 			}
 		}
-	}
-
-
-	
-/*	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.tag == "coin") {
-			Destroy (coll.gameObject);
+		if (col.gameObject.tag == "coin") {
+			hp++;
+			Destroy (col.gameObject);
 			GameObject Money = (GameObject)Instantiate(coin);
 			coin.transform.position = new Vector3(gameObject.transform.position.x + Random.Range(-10, 10), gameObject.transform.position.y, gameObject.transform.position.z);
 		}
-	}*/
-
+		if (col.name == "door") {
+			Application.LoadLevel(1);
+		}
+		if (col.name == "door2") {
+			Application.LoadLevel(2);
+		}
+		if (col.name == "door1") {
+			Application.LoadLevel(2);
+		}
+		if (col.name == "door4") {
+			Application.LoadLevel(0);
+		}
+		if (col.name == "gun") {
+			Cgun = (GameObject)Instantiate(gun);
+			Cgun.transform.parent = gameObject.transform;
+			Cgun.transform.position = new Vector3(gameObject.transform.position.x + 0.5f, gameObject.transform.position.y, 0);
+			Destroy(col.gameObject);
+		}
+	}
 }

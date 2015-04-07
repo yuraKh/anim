@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Anemy.cs" />
+     <Compile Include="Assets\BackgroundP.cs" />
      <Compile Include="Assets\BulletDestroy.cs" />
      <Compile Include="Assets\Control.cs" />
  <Reference Include="UnityEngine.UI">
