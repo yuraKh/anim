@@ -2,7 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Control : MonoBehaviour {
+public class Control : MonoBehaviour
+{
+
 	public Text health;
 	public GameObject coin, CatAn, gun;
 	public Transform Sens;
@@ -11,21 +13,23 @@ public class Control : MonoBehaviour {
 	bool IfRight = true;
 	Rigidbody2D CatRBody;
 	Animator CatAnim;
-	static  int hp = 3;
+	//int hp = 3;
 	float timer = 0;
 	public bool forOne = false;
 	Vector3 deltac;
-	static GameObject Cgun;
+	GameObject Cgun;
 
-	void Start () {
+	void Start ()
+	{
 		deltac = Camera.main.transform.position - transform.position;
 		CatRBody = GetComponent<Rigidbody2D> ();
 		CatAnim = GetComponent<Animator> ();
-		GameObject Money = (GameObject)Instantiate(coin);
-		coin.transform.position = new Vector3(gameObject.transform.position.x + Random.Range(1, 10), gameObject.transform.position.y, gameObject.transform.position.z);
+		GameObject Money = (GameObject)Instantiate (coin);
+		coin.transform.position = new Vector3 (gameObject.transform.position.x + Random.Range (1, 10), gameObject.transform.position.y, gameObject.transform.position.z);
 	}
 	
-	void Update () {
+	void Update ()
+	{
 		Camera.main.transform.position = transform.position + deltac;
 		if (SensIfGround && Input.GetKeyDown (KeyCode.Space)) {
 			CatAnim.SetBool ("IfGround", false);
@@ -33,8 +37,9 @@ public class Control : MonoBehaviour {
 		}
 	}
 
-	void FixedUpdate () {
-		health.text = "Health: " + hp;
+	void FixedUpdate ()
+	{
+		health.text = "Health: " + PatternCat.cat.hp;
 		SensIfGround = Physics2D.OverlapCircle (Sens.position, 1f, Ground);
 		CatAnim.SetBool ("IfGround", SensIfGround);
 		CatAnim.SetFloat ("YSpeed", CatRBody.velocity.y);
@@ -56,13 +61,13 @@ public class Control : MonoBehaviour {
 			transform.localScale = size;
 		}
 	}
-		void OnTriggerEnter2D (Collider2D col)
-		{
+	void OnTriggerEnter2D (Collider2D col)
+	{
 		if (col.tag == "Cat") {
 			Destroy (col.gameObject);
 			print ("aaaaa");
-			hp--;
-			if (hp < 0) {
+			PatternCat.cat.hp--;
+			if (PatternCat.cat.hp < 0) {
 				Color one = GetComponent<SpriteRenderer> ().color;
 				GetComponent<SpriteRenderer> ().color = GameObject.Find ("Anemy").GetComponent<SpriteRenderer> ().color;
 				//GetComponent<Rigidbody2D> ().gravityScale = -0.2f;
@@ -70,32 +75,32 @@ public class Control : MonoBehaviour {
 				CatA.transform.position = gameObject.transform.position;
 				gameObject.transform.position = new Vector3 (gameObject.transform.position.x + Random.Range (-5, 5), gameObject.transform.position.y + 5, gameObject.transform.position.z);
 				GetComponent<SpriteRenderer> ().color = one;
-				hp = 10;
+				PatternCat.cat.hp = 10;
 			}
 		}
 		if (col.gameObject.tag == "coin") {
-			hp++;
+			PatternCat.cat.hp++;
 			Destroy (col.gameObject);
-			GameObject Money = (GameObject)Instantiate(coin);
-			coin.transform.position = new Vector3(gameObject.transform.position.x + Random.Range(-10, 10), gameObject.transform.position.y, gameObject.transform.position.z);
+			GameObject Money = (GameObject)Instantiate (coin);
+			coin.transform.position = new Vector3 (gameObject.transform.position.x + Random.Range (-10, 10), gameObject.transform.position.y, gameObject.transform.position.z);
 		}
 		if (col.name == "door") {
-			Application.LoadLevel(1);
+			Application.LoadLevel (1);
 		}
 		if (col.name == "door2") {
-			Application.LoadLevel(2);
+			Application.LoadLevel (2);
 		}
 		if (col.name == "door1") {
-			Application.LoadLevel(2);
+			Application.LoadLevel (2);
 		}
 		if (col.name == "door4") {
-			Application.LoadLevel(0);
+			Application.LoadLevel (0);
 		}
 		if (col.name == "gun") {
-			Cgun = (GameObject)Instantiate(gun);
+			Cgun = (GameObject)Instantiate (gun);
 			Cgun.transform.parent = gameObject.transform;
-			Cgun.transform.position = new Vector3(gameObject.transform.position.x + 0.5f, gameObject.transform.position.y, 0);
-			Destroy(col.gameObject);
+			Cgun.transform.position = new Vector3 (gameObject.transform.position.x + 0.5f, gameObject.transform.position.y, 0);
+			Destroy (col.gameObject);
 		}
 	}
 }

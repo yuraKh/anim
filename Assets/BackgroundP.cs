@@ -2,7 +2,8 @@
 using System.Collections;
 
 
-public class BackgroundP : MonoBehaviour {
+public class BackgroundP : MonoBehaviour
+{
 
 	public Transform[] background;
 
@@ -39,7 +40,7 @@ public class BackgroundP : MonoBehaviour {
 				}
 			}
 		}
-		catM = GameObject.Find("Cat").GetComponent<Rigidbody2D>().velocity.y;
+		//catM = GameObject.Find("Cat").GetComponent<Rigidbody2D>().velocity.y;
 
 		if (catM > 0) {
 			background [0].localPosition -= new Vector3 (0, 0.01f, 0);
@@ -48,12 +49,9 @@ public class BackgroundP : MonoBehaviour {
 			background [3].localPosition -= new Vector3 (0, 0.01f, 0);
 			background [4].localPosition -= new Vector3 (0, 0.01f, 0);
 			background [5].localPosition -= new Vector3 (0, 0.01f, 0);
-		} 
-		else if (catM == 0) {
+		} else if (catM == 0) {
 			return;
-		}
-
-		else {
+		} else {
 			background [0].localPosition += new Vector3 (0, 0.01f, 0);
 			background [1].localPosition += new Vector3 (0, 0.01f, 0);
 			background [2].localPosition += new Vector3 (0, 0.01f, 0);
